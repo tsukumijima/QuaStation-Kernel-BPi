@@ -82,7 +82,7 @@ echo "	6. Clean all build."
 echo "--------------------------------------------------------------------------------"
 
 if [ -z "$MODE" ]; then
-	read -p "Please choose a mode(1-7): " mode
+	read -p "Please choose a mode(1-6): " mode
 	echo
 else
 	mode=$MODE
