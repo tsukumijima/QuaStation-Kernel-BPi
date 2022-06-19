@@ -15,10 +15,6 @@ CUR_DIR=$PWD
 TOOLCHAIN=gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu
 CROSS_COMPILE=$CUR_DIR/toolchains/$TOOLCHAIN/bin
 
-list_boards() {
-	(cd ${BPIPACK}/${BPISOC}/${TARGET_PRODUCT}/configs ; ls -1d BPI* )
-}
-
 # keep the output `sh` friendly
 # i.e., no spaces around the '='
 generate_board_mk() {
@@ -28,7 +24,6 @@ generate_board_mk() {
 	SOC=$SOC
 	MACH=$MACH
 	COMPILE_TOOL=$CROSS_COMPILE
-	UBOOT_CONFIG=${SOC}_${TYPE}_bananapi_defconfig
 	KERNEL_CONFIG=${MACH}_bpi_defconfig
 	TARGET_PLATFORM=${TARGET_PLATFORM}
 	EOT
@@ -43,7 +38,6 @@ generate_board_envsh() {
 	export BOARD=$BOARD
 	export SOC=$SOC
 	export MACH=$MACH
-	export UBOOT_CONFIG=${SOC}_${TYPE}_bananapi_defconfig
 	export KERNEL_CONFIG=${MACH}_bpi_defconfig
 	export LICHEE_PLATFORM="linux"
 	export GPU_TYPE="mali820"
@@ -59,7 +53,6 @@ usage() {
 
 	supported boards:
 	EOT
-	list_boards  #DK, update later
 }
 
 if [ $# -eq 0 ]; then
