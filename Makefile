@@ -22,10 +22,7 @@ clean: kernel-clean
 	rm -f chosen_board.mk env.sh
 
 distclean: clean
-	rm -rf SD/
-
-install:
-	$(Q)scripts/mk_install_sd.sh
+	rm -rf usbflash/
 
 $(K_DOT_CONFIG): linux-rtk
 	$(Q)$(MAKE) -C linux-rtk ARCH=arm64 $(KERNEL_CONFIG)
