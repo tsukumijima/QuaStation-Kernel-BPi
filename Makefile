@@ -11,7 +11,7 @@ K_CROSS_COMPILE=$(AARCH64_CROSS_COMPILE)
 K_O_PATH=linux-rtk
 K_DOT_CONFIG=$(K_O_PATH)/.config
 
-ROOTFS=$(CURDIR)/rootfs/linux/default_linux_rootfs.tar.gz
+RTKDIR=$(TOPDIR)/phoenix/drivers
 
 Q=
 J=$(shell expr `grep ^processor /proc/cpuinfo  | wc -l` \* 2)
@@ -31,9 +31,14 @@ kernel: $(K_DOT_CONFIG)
 	$(Q)$(MAKE) -C linux-rtk ARCH=arm64 CROSS_COMPILE=${K_CROSS_COMPILE} -j$J INSTALL_MOD_PATH=output UIMAGE_LOADADDR=0x40008000 Image dtbs
 	$(Q)$(MAKE) -C linux-rtk ARCH=arm64 CROSS_COMPILE=${K_CROSS_COMPILE} -j$J INSTALL_MOD_PATH=output modules
 	$(Q)$(MAKE) -C linux-rtk ARCH=arm64 CROSS_COMPILE=${K_CROSS_COMPILE} -j$J INSTALL_MOD_PATH=output modules_install
+	mkdir $(K_O_PATH)/output/lib/modules/4.9.119-BPI-W2-Kernel/kernel/extra
+	$(Q)$(MAKE) -C phoenix/drivers ARCH=arm64 CROSS_COMPILE=${K_CROSS_COMPILE} TARGET_KDIR=$(TOPDIR) -j$J INSTALL_MOD_PATH=output
+	$(Q)$(MAKE) -C phoenix/drivers ARCH=arm64 CROSS_COMPILE=${K_CROSS_COMPILE} TARGET_KDIR=$(TOPDIR) -j$J INSTALL_MOD_PATH=output install
+	$(Q)$(MAKE) -C linux-rtk ARCH=arm64 CROSS_COMPILE=${K_CROSS_COMPILE} -j$J INSTALL_MOD_PATH=output _depmod
 	$(Q)scripts/install_kernel_headers.sh $(K_CROSS_COMPILE)
 
 kernel-clean:
+	$(Q)$(MAKE) -C phoenix/drivers ARCH=arm64 CROSS_COMPILE=${K_CROSS_COMPILE} TARGET_KDIR=$(TOPDIR) -j$J INSTALL_MOD_PATH=output clean
 	$(Q)$(MAKE) -C linux-rtk ARCH=arm64 CROSS_COMPILE=${K_CROSS_COMPILE} -j$J distclean
 	rm -rf linux-rtk/output/
 
