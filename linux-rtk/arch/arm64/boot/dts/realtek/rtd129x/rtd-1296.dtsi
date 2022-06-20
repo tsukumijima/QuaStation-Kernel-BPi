@@ -135,6 +135,10 @@
 			<&uart0_pins>,
 			<&uart1_pins>,
 			<&uart2_pins_0>,
+			<&i2c_pins_0>,
+			<&i2c_pins_1>,
+			<&i2c_pins_5>,
+			<&i2c_pins_6>,
 			<&pcie1_clk_pins>,
 			<&pcie2_clk_pins>,
 			<&rgmii0_pins>,
@@ -455,7 +459,8 @@
 		bus-range = <0x00 0xff>;
 		linux,pci-domain = <0>;
 		device_type = "pci";
-        	gpios = <&rtk_iso_gpio 29 1 1 >;
+        	/* BPI gpios = <&rtk_iso_gpio 29 1 1 >; */
+        	gpios = <&rtk_misc_gpio 16 1 0 >;
 		#size-cells = <2>;
 		#address-cells = <3>;
 		num-lanes = <1>;
@@ -502,13 +507,14 @@
 		bus-range = <0x00 0xff>;
 		linux,pci-domain = <1>;
 		device_type = "pci";
-		gpios = <&rtk_iso_gpio 30 1 1>;
+		/* BPI gpios = <&rtk_iso_gpio 30 1 1>; */
+		gpios = <&rtk_misc_gpio 19 1 0>;
 		#size-cells = <2>;
 		#address-cells = <3>;
 		num-lanes = <1>;
 		ranges = <0x02000000 0x00000000 0xC1000000  0xC1000000 0x00000000 0x01000000
 			0x01000000 0x00000000 0x00040000  0x00040000 0x00000000 0x00010000>;
-		speed-mode = <0>; // 0:GEN1, 1:GEN2
+		speed-mode = <1>; // 0:GEN1, 1:GEN2
 		resets = <&rst2 RSTN_PCIE1>,
 			<&rst2 RSTN_PCIE1_CORE>,
 			<&rst2 RSTN_PCIE1_POWER>,
@@ -715,12 +721,9 @@
 		interrupts = <1 8>;
 		i2c-num = <0>;
 		status = "okay";
-		pinctrl-names = "default";
-		pinctrl-0 = <&i2c_pins_0>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 		clocks = <&iclk_en CLK_EN_I2C0>;
-		resets = <&irst IRSTN_I2C_0>;
 	};
 
 	i2c_1: i2c@0x98007C00 {
@@ -730,12 +733,9 @@
 		interrupts = <1 11>;
 		i2c-num = <1>;
 		status = "okay";
-		pinctrl-names = "default";
-		pinctrl-0 = <&i2c_pins_1>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 		clocks = <&iclk_en CLK_EN_I2C1>;
-		resets = <&irst IRSTN_I2C_1>;
 	};
 
 	i2c_2: i2c@0x9801B700 {
@@ -745,12 +745,9 @@
 		interrupts = <0 26>;
 		i2c-num = <2>;
 		status = "okay";
-		pinctrl-names = "default";
-		pinctrl-0 = <&i2c_pins_2>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 		clocks = <&clk_en_2 CLK_EN_MISC_I2C_2>;
-		resets = <&rst2 RSTN_I2C_2>;
 	};
 
 	i2c_3: i2c@0x9801B900 {
@@ -760,12 +757,9 @@
 		interrupts = <0 23>;
 		i2c-num = <3>;
 		status = "okay";
-		pinctrl-names = "default";
-		pinctrl-0 = <&i2c_pins_3>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 		clocks = <&clk_en_2 CLK_EN_MISC_I2C_3>;
-		resets = <&rst2 RSTN_I2C_3>;
 	};
 
 	i2c_4: i2c@0x9801BA00 {
@@ -775,12 +769,11 @@
 		interrupts = <0 15>;
 		i2c-num = <4>;
 		status = "okay";
-		pinctrl-names = "default";
-		pinctrl-0 = <&i2c_pins_4>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 		clocks = <&clk_en_2 CLK_EN_MISC_I2C_4>;
-		resets = <&rst2 RSTN_I2C_4>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&i2c_pins_4>;		
 	};
 
 	i2c_5: i2c@0x9801BB00 {
@@ -790,16 +783,12 @@
 		interrupts = <0 14>;
 		i2c-num = <5>;
 		status = "okay";
-		pinctrl-names = "default";
-		pinctrl-0 = <&i2c_pins_5>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 		clocks = <&clk_en_2 CLK_EN_MISC_I2C_5>;
-		resets = <&rst2 RSTN_I2C_5>;
-		
+
 		rts5400@6A {
 			compatible = "rtk-rts5400";
-			status = "disabled";
 			reg = <0x6A>;
 			realtek,12v-power-gpio = <&rtk_misc_gpio 16 1 0>; /*1296 u3host power, output, default low */
 		};
@@ -942,8 +931,8 @@
 
 	power-management@0 {
 		compatible = "Realtek,power-management";
-		/*system-power-controller;*/ /* Disable rtk suspend */
-		reg = <0x98000000 0x1800>,   /* CRT */
+		system-power-controller;
+		reg = <0x98000000 0x1800>, /* CRT */
 			<0x98006000 0x1000>, /* AIO */
 			<0x98007000 0x1000>, /* ISO */
 			<0x98018000 0x2000>, /* TVE */

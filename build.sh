@@ -33,7 +33,7 @@ R="${USBFlash}/rootfs"
 	## copy files to bootfs
 	#
 	cp -a $T/${BPILINUX}/arch/arm64/boot/Image $B/uImage
-	cp -a $T/${BPILINUX}/arch/arm64/boot/dts/realtek/rtd129x/rtd-1296-bananapi-w2-2GB.dtb $B/bpi-w2.dtb
+	cp -a $T/${BPILINUX}/arch/arm64/boot/dts/realtek/rtd129x/rtd-1296-bananapi-w2-2GB-HDMI.dtb $B/bpi-w2.dtb
 	#
 	## modules
 	rm -rf $R/lib/modules
