@@ -137,7 +137,7 @@ static int rtk_fan_get_speed(struct rtk_fan_data *fan_data) {
 static int rtk_fan_ctrl_speed(struct rtk_fan_data *fan_data, int ctrl_speed) {
 	if (ctrl_speed > MAX_CTRL_SPEED) ctrl_speed = MAX_CTRL_SPEED;
 
-	if (fan_data->pwm) {
+	if (!IS_ERR(fan_data->pwm)) {
 		int period_ns = pwm_get_period(fan_data->pwm);
 		int duty_ns = period_ns * ctrl_speed / MAX_CTRL_SPEED;
 		dev_dbg(fan_data->dev, "%s to set pwm default duty_ns =%d,  period_ns = %d!",
