@@ -23,12 +23,8 @@ dtb-$(CONFIG_ARCH_RTD129x) += rtd-1295-milii-2GB.dtb
 dtb-$(CONFIG_ARCH_RTD129x) += rtd-1296-pinnata-2GB-tee.dtb
 dtb-$(CONFIG_ARCH_RTD129x) += rtd-1295-qa-rescue-tee.dtb
 dtb-$(CONFIG_ARCH_RTD129x) += rtd-1296-qa-rescue-tee.dtb
+dtb-$(CONFIG_ARCH_RTD129x) += rtd-1295-quastation.dtb
 
-dtb-$(CONFIG_ARCH_RTD129x) += rtd-1296-saola-2GB-xendom0.dtb
-dtb-$(CONFIG_ARCH_RTD129x) += rtd-1296-saola-3GB-xendom0.dtb
-dtb-$(CONFIG_ARCH_RTD129x) += rtd-1296-saola-xenott.dtb
-dtb-$(CONFIG_ARCH_RTD129x) += rtd-1296-saola-xenott-3GB.dtb
-dtb-$(CONFIG_ARCH_RTD129x) += rtd-1296-saola-xenott-3GB-tee.dtb
 always		:= $(dtb-y)
 subdir-y	:= $(dts-dirs)
 clean-files	:= *.dtb
