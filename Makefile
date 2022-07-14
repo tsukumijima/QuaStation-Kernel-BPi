@@ -21,14 +21,14 @@ docker-image:
 	@echo 'Building Docker image...'
 	@echo '--------------------------------------------------------------------------------'
 	mkdir -p build
-	docker build -t quastation-kernel -f Dockerfile build/
+	docker build -t quastation-kernel-bpi -f Dockerfile build/
 	rmdir build
 	@echo '--------------------------------------------------------------------------------'
 	@echo 'Docker image build is completed.'
 	@echo '--------------------------------------------------------------------------------'
 
 build:
-	docker run --rm -i -t -v `pwd`:/build/ quastation-kernel /bin/bash -c 'make build-in-container'
+	docker run --rm -i -t -v `pwd`:/build/ quastation-kernel-bpi /bin/bash -c 'make build-in-container'
 
 build-in-container:
 	@echo '--------------------------------------------------------------------------------'
@@ -59,7 +59,6 @@ build-in-container:
 	@echo '--------------------------------------------------------------------------------'
 	cp -a $(BASE_DIR)/prebuilt/rtlbt/ $(LINUX_DIR)/output/lib/firmware/
 	cp -a $(BASE_DIR)/prebuilt/openmax/* $(LINUX_DIR)/output/
-	rm $(LINUX_DIR)/output/lib/modules/4.9.119-quastation/kernel/extra/mali_kbase.ko  # because currently doesn't work
 	depmod --all --basedir=$(LINUX_DIR)/output/ 4.9.119-quastation
 	@echo '--------------------------------------------------------------------------------'
 	@echo 'Creating a package for USB flash...'
@@ -68,16 +67,18 @@ build-in-container:
 	mkdir -p $(BASE_DIR)/usbflash/
 	mkdir -p $(BASE_DIR)/usbflash/bootfs/
 	cp -a $(LINUX_DIR)/arch/arm64/boot/Image $(BASE_DIR)/usbflash/bootfs/uImage
-	cp -a $(LINUX_DIR)/arch/arm64/boot/dts/realtek/rtd-1295-quastation.dtb $(BASE_DIR)/usbflash/bootfs/QuaStation.dtb
+	cp -a $(LINUX_DIR)/arch/arm64/boot/dts/realtek/rtd129x/rtd-1295-quastation.dtb $(BASE_DIR)/usbflash/bootfs/QuaStation.dtb
 	mkdir -p $(BASE_DIR)/usbflash/rootfs/
 	cp -a $(LINUX_DIR)/output/* $(BASE_DIR)/usbflash/rootfs/
+	mv $(BASE_DIR)/usbflash/rootfs/lib/* $(BASE_DIR)/usbflash/rootfs/usr/lib/
+	rm -r $(BASE_DIR)/usbflash/rootfs/lib/
 	chown -R root:root usbflash/
 	@echo '--------------------------------------------------------------------------------'
 	@echo 'Kernel build is completed.'
 	@echo '--------------------------------------------------------------------------------'
 
 config:
-	docker run --rm -i -t -v `pwd`:/build/ quastation-kernel /bin/bash -c 'make config-in-container'
+	docker run --rm -i -t -v `pwd`:/build/ quastation-kernel-bpi /bin/bash -c 'make config-in-container'
 
 config-in-container:
 	cp $(LINUX_DIR)/arch/arm64/configs/rtd1295_quastation_defconfig $(LINUX_DIR)/.config
@@ -85,7 +86,7 @@ config-in-container:
 	cp $(LINUX_DIR)/.config $(LINUX_DIR)/arch/arm64/configs/rtd1295_quastation_defconfig
 
 clean:
-	docker run --rm -i -t -v `pwd`:/build/ quastation-kernel /bin/bash -c 'make clean-in-container'
+	docker run --rm -i -t -v `pwd`:/build/ quastation-kernel-bpi /bin/bash -c 'make clean-in-container'
 
 clean-in-container:
 	$(Q)$(MAKE) -C phoenix/drivers ARCH=arm64 CROSS_COMPILE=$(CROSS_COMPILE) TARGET_KDIR=$(LINUX_DIR) -j$J INSTALL_MOD_PATH=output/ clean
