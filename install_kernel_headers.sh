@@ -1,22 +1,10 @@
 #!/bin/sh
 #
-# ref(https://github.com/longsleep/build-pin64-image)
+# ref: https://github.com/longsleep/build-pine64-image
+# ref: https://github.com/BPI-SINOVOIP/BPI-W2-bsp/blob/master/scripts/install_kernel_headers.sh
 #
 
-die() {
-        echo "$*" >&2
-        exit 1
-}
-
-[ -s "./env.sh" ] || die "please run ./configure first."
-
-set -e
-
-. ./env.sh
-
-set -e
-
-LINUX="$TOPDIR/linux-rtk"
+LINUX="`pwd`/linux"
 DEST="$LINUX/output"
 
 echo "Using Linux from $LINUX ..."
@@ -40,7 +28,7 @@ mkdir -p "$TARGET/arch/$LINUX_ARCH"
 cp -a arch/$LINUX_ARCH/Makefile "$TARGET/arch/$LINUX_ARCH"
 cp -a Module.symvers "$TARGET"
 
-# Install Kernel headers
+# Install kernel headers
 make ARCH=$LINUX_ARCH CROSS_COMPILE=$CROSS_COMPILE headers_install INSTALL_HDR_PATH="$TARGET"
 
 tar cfh - include | (cd "$TARGET"; umask 000; tar xsf -)
