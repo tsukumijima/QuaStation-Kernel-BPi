@@ -850,7 +850,7 @@
 		interrupts = <0 29>;
 		status = "disabled";
 
-		pwms = <&pwm 1 37878>; // (1) pwm node (2) pwm id (3) out period_ns (1/26400 ns)
+		//pwms = <&pwm 1 37878>; // (1) pwm node (2) pwm id (3) out period_ns (1/26400 ns)
 
 		timer_target = <0x100000>;
 		fan_debounce = <0x0>;// 0x0~0x7
@@ -968,26 +968,6 @@
 	rng@9801AA00 {
 		compatible = "Realtek,rtk-rng";
 		reg = <0x9801AA00 0x48>;
-	};
-
-	smartcard@9801BE00 {
-		compatible = "Realtek,rtk-smc";
-		interrupt-parent = <&mux_intc>;
-		interrupts = <0 24>; /* SC0_INT*/
-		reg = <0x9801B000 0x100>, /* MISC interrupt */
-			<0x9801BE00 0x28>; /* SmartCard */
-		smc-num = <0>;
-		clocks = <&clk_en_2 CLK_EN_MISC_SC>;
-		resets = <&rst2 RSTN_MISC_SC>;
-		status = "okay";
-		lsic_control{
-			gpios = <&rtk_misc_gpio 11 1 0>, /* pin cmd_vcc , default low */
-				<&rtk_misc_gpio 12 1 0>; /* pin pwr_sel , default 0 */
-			cmd_vcc_en = <1>;
-			cmd_vcc_polarity = <0>; /* low active */
-			pwr_sel_en = <1>;
-			pwr_sel_polarity = <1>; /* high actve 1: 5v */
-		};
 	};
 
 	mcp@0 {

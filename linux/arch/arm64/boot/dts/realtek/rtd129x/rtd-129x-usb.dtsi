@@ -158,7 +158,7 @@ dwc3_drd: rtk_dwc3_drd@98013200 {
 	};
 
 	dwc3_type_c: rtk_dwc3_drd_type_c@0 {
-		//compatible = "Realtek,dwc3-type_c";
+		compatible = "Realtek,dwc3-type_c";
 		reg = <0x98013200 0x200>;
 		realtek,rd_ctrl-gpio = <&rtk_iso_gpio 34 1 0>; /*TypeC Rd control, output, default low */
 		interrupts = <0 60 4>;

@@ -12,8 +12,8 @@
 /memreserve/	0x0000000010000000 0x0000000000014000;
 /memreserve/	0x0000000002200000 0x0000000000400000;
 
-#include "rtd-1296.dtsi"
-#include "rtd-1296-saola-common.dtsi"
+#include "rtd-1295.dtsi"
+#include "rtd-1295-giraffe-common.dtsi"
 
 / {
 	chosen {

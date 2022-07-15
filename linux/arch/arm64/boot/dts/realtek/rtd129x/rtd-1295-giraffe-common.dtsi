@@ -121,7 +121,7 @@
 		compatible = "Realtek,power-management";
 		wakeup-gpio-list = <&rtk_iso_gpio 14 0 0>,
 			<&rtk_iso_gpio 33 0 0>;
-		wakeup-gpio-enable = <1>, <0>;
+		wakeup-gpio-enable = <0>, <0>;
 		wakeup-gpio-activity = <1>, <1>;
 	};
 };
