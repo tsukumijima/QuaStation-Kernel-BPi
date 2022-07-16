@@ -1,7 +1,24 @@
 
 # QuaStation-Kernel-BPi
 
-[Banana Pi W2](https://wiki.banana-pi.org/Banana_Pi_BPI-W2) 向けの Linux カーネル (BSP: Board Support Package) 、[BPI-W2-bsp](https://github.com/BPI-SINOVOIP/BPI-W2-bsp) の [v1.1](https://github.com/BPI-SINOVOIP/BPI-W2-bsp/releases/tag/w2-4.9-v1.1) をベースに、Qua Station 向けの様々な改良を行った Linux カーネルです。
+[Banana Pi W2](https://wiki.banana-pi.org/Banana_Pi_BPI-W2) 向けの BSP (Board Support Package) 版 Linux カーネル 、[BPI-W2-bsp](https://github.com/BPI-SINOVOIP/BPI-W2-bsp) の [v1.1](https://github.com/BPI-SINOVOIP/BPI-W2-bsp/releases/tag/w2-4.9-v1.1) をベースに、Qua Station 向けの様々な改良を行った Linux カーネルです。
+
+Linux カーネルのバージョンは 4.9.119 ですが、mainline のカーネルと比較すると、Realtek SoC 向けの大幅なカスタマイズ（ Realtek SoC 固有のドライバやデバイスツリーの追加など）が行われています。  
+
+## 既知の問題
+
+- **USB 3.0 ポートに接続した USB メモリが USB 2.0 (480Mbps) として認識される。**
+  - QuaStation-Kernel (実機に搭載されているものに近い 4.1.17 カーネル) では、正常に 5Gbps の USB 3.0 ポートとして認識されることを確認しています。
+  - `lsusb -tv` や起動時のログを見る限りは USB 2.0 で接続されてしまっているように見えますが、実際にどちらで接続されているのかは分かりません。
+  - せっかく USB 3.0 ポートなのに USB 2.0 接続されてしまっているのはなんとかしたいところですが、今の所原因は特定できていません。
+- **シャットダウンすると、一見完全に電源が切れたように見えるものの、数十秒後にカーネルパニックが発生する。**
+  - エラーメッセージに `Attempted to kill init!` とあることから、シャットダウンプロセスは完了したものの、ボードの電源を切れていないことが考えられます。
+  - Android 実機の Qua Station では、eMMC 内の U-Boot の環境変数領域にある PowerStatus フラグを off に書き換えた後に「再起動」する挙動になっているあたり、Qua Station はボード自体の電源オフに対応していないのかもしれません。
+  - Qua Station の eMMC に内蔵されている U-Boot は Qua Station 向けにカスタマイズされており、環境変数の PowerStatus フラグ (環境変数は `env print` で確認できる) が off になっている場合はブート処理を行わず、PowerStatus が on になるまで待機するようになっています。
+  - Android 実機の Qua Station には `factory` という U-Boot の環境変数を Linux 側から読み書きするためのコマンドが同梱されています。ただ残念ながらソースコードが公開されておらず、Android 向けの実行ファイルのため実行することもできません。
+    - 一般的な U-Boot であれば環境変数を `fw_printenv` / `fw_setenv` コマンドで読み書きすることができるはずですが、現状動作していません…。
+    - eMMC を dd でダンプするなどして強引に読み取ることはできますが、書き込みには CRC32 と思われる環境変数すべてのハッシュ値を環境変数の保存領域 (env.txt) の先頭にセットする必要があるようで、難易度がかなり高いです。
+    - Qua Station の U-Boot の環境変数を Linux から読み書きすることに成功した方は、ぜひご一報いただけると助かります。eMMC からダンプしたデータは [こちら](https://github.com/tsukumijima/Storehouse/releases/tag/Storehouse) にあります。
 
 ## カーネルのビルド
 
