@@ -148,6 +148,12 @@
 		};
 	};
 
+	/* Qua Station Fan */
+	rtk_fan: rtk_fan@9801BC00 {
+		compatible = "Realtek,rtd129x-fan";
+		status = "okay";
+	};
+
 	/* Qua Station GPIO Buttons */
 	gpio-btns {
 		compatible = "Askey,gpio-btns";

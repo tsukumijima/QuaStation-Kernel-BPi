@@ -126,11 +126,16 @@
 			<0x98007000 0x340>;
 		#gpio-range-cells = <3>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&i2c_pins_6>,
-			<&spdif_pins>,
-			<&spi_pins_loc_gpio>,
-			<&sdcard_pins_low>,
-			<&sdcard_pins_high>;
+        pinctrl-0 = <&i2c_pins_0>,
+                    <&i2c_pins_1>,
+                    <&i2c_pins_5>,
+                    <&i2c_pins_6>,
+                    //<&spdif_pins>,
+                    <&spi_pins_loc_gpio>,
+					<&sdcard_pins_low>,
+                    <&sdcard_pins_high>,
+                    <&dc_fan_sensor_pins>,
+                    <&etn_led_pins>;
 		status = "okay";
 	};
 
@@ -177,6 +182,9 @@
 			<0x98007100 0x100>; /* ISO_SYS ISO_GPIO*/
 		gpio-ranges = <&pinctrl 0 101 35>;
 		status = "okay";
+
+        /* lte power on */
+        gpios = <&rtk_iso_gpio 19 1 1>;
 	};
 
 	rbus@98000000 {
