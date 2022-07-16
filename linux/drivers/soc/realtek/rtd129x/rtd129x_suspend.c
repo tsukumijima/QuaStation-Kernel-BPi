@@ -354,7 +354,7 @@ static int notrace rtk_iso_suspend(unsigned long param)
 	for (i = max_count; i > 0 ; i--)
 		__delay(10000000);
 
-	BUG();
+	// BUG();  // workaround
 
 	return  -EINVAL;
 }

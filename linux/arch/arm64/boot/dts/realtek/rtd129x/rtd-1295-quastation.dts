@@ -78,6 +78,26 @@
 		};
 	};
 
+	/*
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+	};
+
+	mem_remap {
+		compatible = "Realtek,rtk1295-mem_remap";
+		reg = <RBUS_BASE_PHYS RBUS_BASE_SIZE>,
+			  <RPC_COMM_PHYS RPC_COMM_SIZE>,
+			  <ION_MEDIA_HEAP_PHYS1 ION_MEDIA_HEAP_SIZE1>,
+			  <ACPU_FIREWARE_PHYS ACPU_FIREWARE_SIZE>,
+			  <ION_AUDIO_HEAP_PHYS ION_AUDIO_HEAP_SIZE>,
+			  <RPC_RINGBUF_PHYS RPC_RINGBUF_SIZE>,
+			  <ION_MEDIA_HEAP_PHYS2 ION_MEDIA_HEAP_SIZE2>,
+			  <ACPU_IDMEM_PHYS ACPU_IDMEM_SIZE>;
+	};
+	*/
+
 	rtk,ion {
 		rtk,ion-heap@8 { /* Audio */
 			compatible = "Realtek,rtk-ion-reserve";
@@ -106,25 +126,11 @@
 	 * pddrive_nf0, pddrive_nf1, pddrive_nf2, pddrive_nf3, pddrive_nf4 ; for hs200
 	 */
 
-	sdio@98010A00 {
-		compatible = "Realtek,rtk1295-sdio";
-		status = "okay";
-	};
-
-	sdmmc@98010400 {
-		compatible = "Realtek,rtk1295-sdmmc";
-		status = "okay";
-	};
-
 	emmc@98012000 {
 		compatible = "Realtek,rtk1295-emmc";
 		pddrive_nf_s0 = <0x77 0x77 0x77 0x77 0x77>;
 		pddrive_nf_s2 = <0xbb 0xbb 0xbb 0xbb 0xbb>;
 		phase_tuning = <1 1>; /* BPI arg0: tx tuning switch, arg1: rx tuning switch*/
-	};
-
-	dptx@9803D000 {
-		status = "okay";
 	};
 
 	rtk_avcpu {
@@ -140,22 +146,6 @@
 		rpc@0 {
 			reg = <RPC_COMM_PHYS RPC_COMM_SIZE>;
 		};
-	};
-
-	/* Qua Station CPU Fan */
-	rtk_fan: rtk_fan@9801BC00 {
-		compatible = "Realtek,rtd129x-fan";
-		reg = <0x9801BC00 0x14>, <0x9801A910 0x4>;
-		interrupt-parent = <&mux_intc>;
-		interrupts = <0 29>;
-		status = "okay";
-
-		//pwms = <&pwm 1 37878>; // (1) pwm node (2) pwm id (3) out period_ns (1/26400 ns)
-
-		timer_target = <0x100000>;
-		fan_debounce = <0x0>; // 0x0~0x7
-		clocks = <&clk_en_2 CLK_EN_FAN>;
-		resets = <&rst4 RSTN_FAN>;
 	};
 
 	/* Qua Station GPIO Buttons */

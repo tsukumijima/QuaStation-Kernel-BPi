@@ -936,14 +936,13 @@
 
 	rfkill: rfkilligpio {
 		compatible = "realtek,rfkill";
-		gpios = <&rtk_iso_gpio 24 1 0>; /*bt power , output, default low */
-		status = "disabled";
+		gpios = <&rtk_misc_gpio 63 1 0>; /*bt power , output, default low */
+		status = "okay";
 	};
 
 	rtk-gpio-regulator {
 		compatible = "rtkgpio-regulator";
 		gpios = <&rtk_iso_gpio 16 1 0>, <&rtk_iso_gpio 17 1 1>;
-		//status = "disabled";
 		status = "okay";
 		vdd: rtkgpio_regulator {
 			regulator-min-microvolt = <850000>;
@@ -961,7 +960,7 @@
 			<0x9801A000 0x1000>, /* SB2 */
 			<0x9801B000 0x1000>; /* MISC */
 		suspend-mode = <0>; // 0:SUSPEND_TO_RAM, 1:SUSPEND_TO_COOLBOOT, 2:SUSPEND_TO_WFI
-		pwms = <&pwm 0 37878>;
+		//pwms = <&pwm 0 37878>;
 		status = "okay";
 	};
 
