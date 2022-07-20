@@ -115,11 +115,11 @@ static void rtk_rtc_enable(struct device *dev, int en)
 		goto err;
 
 	if (!en) {
-		dev_err(dev, "rtk_rtc_disable");
+		dev_info(dev, "rtk_rtc_disable");
 		writel(0x00, rtk_rtc_base + REG_RTCEN);
 
 	} else if ((readl(rtk_rtc_base + REG_RTCEN) & 0xff) != 0x5A) {
-		dev_err(dev, "rtk_rtc_enable");
+		dev_info(dev, "rtk_rtc_enable");
 		writel(0x5A, rtk_rtc_base + REG_RTCEN);
 	} else {
 		dev_err(dev, "rtk_rtc already enabled ");
