@@ -78,26 +78,6 @@
 		};
 	};
 
-	/*
-	reserved-memory {
-		#address-cells = <1>;
-		#size-cells = <1>;
-		ranges;
-	};
-
-	mem_remap {
-		compatible = "Realtek,rtk1295-mem_remap";
-		reg = <RBUS_BASE_PHYS RBUS_BASE_SIZE>,
-			  <RPC_COMM_PHYS RPC_COMM_SIZE>,
-			  <ION_MEDIA_HEAP_PHYS1 ION_MEDIA_HEAP_SIZE1>,
-			  <ACPU_FIREWARE_PHYS ACPU_FIREWARE_SIZE>,
-			  <ION_AUDIO_HEAP_PHYS ION_AUDIO_HEAP_SIZE>,
-			  <RPC_RINGBUF_PHYS RPC_RINGBUF_SIZE>,
-			  <ION_MEDIA_HEAP_PHYS2 ION_MEDIA_HEAP_SIZE2>,
-			  <ACPU_IDMEM_PHYS ACPU_IDMEM_SIZE>;
-	};
-	*/
-
 	rtk,ion {
 		rtk,ion-heap@8 { /* Audio */
 			compatible = "Realtek,rtk-ion-reserve";

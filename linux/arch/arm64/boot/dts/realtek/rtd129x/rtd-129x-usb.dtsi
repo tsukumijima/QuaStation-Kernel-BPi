@@ -320,7 +320,7 @@ usb2_udc: usb2_udc@981E0000 {
 	interrupts = <0 21 4>;
 	usb-phy = <&ehci_phy_rle0599>;
 
-	status = "disable";
+	status = "okay";
 };
 
 dwc3_u3host_usb3phy: dwc3_u3host_usb3phy@0 {
