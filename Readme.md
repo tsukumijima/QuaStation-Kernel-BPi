@@ -12,7 +12,7 @@ Linux カーネルのバージョンは 4.9.119 ですが、mainline のカー�
   - `lsusb -tv` や起動時のログを見る限りは USB 2.0 で接続されてしまっているように見えますが、実際にどちらで接続されているのかは分かりません。
   - せっかく USB 3.0 ポートなのに USB 2.0 接続されてしまっているのはなんとかしたいところですが、今の所原因は特定できていません。
   - **2022/11/06 追記: [@mt999a さんから頂いた報告](https://github.com/tsukumijima/QuaStation-Kernel-BPi/issues/1) で、デバイスツリー上の一部の記述を変更することで USB 3.0 が利用できるようになることがわかりました！**
-    - 何ヶ月も Qua Station を触っていないため私の方での確認はできていませんが、Qua Station で USB 3.0 を使ってみたい方は @mt999a さんの [こちら](https://github.com/mt999a/QuaStation-Kernel-BPi/commits/feature/enable_usb3_develop) のフォークを試してみると良いかもしれません。
+    - 何ヶ月も Qua Station を触っていないため私の方での確認はできていませんが、Qua Station で USB 3.0 を使ってみたい方は @mt999a さんの [こちら](https://github.com/mt999a/QuaStation-Kernel-BPi/tree/feature/enable_usb3_develop) のフォークを試してみると良いかもしれません。
 - **通常通りシャットダウンすると、一見完全に電源が切れたように見えるものの、数十秒後にカーネルパニックが発生する。**
   - エラーメッセージに `Attempted to kill init!` とあることから、シャットダウンプロセスは完了したものの、ボードの電源を切れていないことが考えられます。
   - Android 実機の Qua Station では、eMMC 内の U-Boot の環境変数領域にある PowerStatus フラグを off に書き換えた後に「再起動」する挙動になっているあたり、Qua Station はボード自体の電源オフには対応していないのかもしれません。
